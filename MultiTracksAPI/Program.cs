@@ -13,6 +13,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSqlServer<MultiTracksDbContext>(builder.Configuration.GetConnectionString("Connection"));
 
 
+builder.Services.AddScoped<SongService>();
 builder.Services.AddScoped<ArtistService>();
 
 var app = builder.Build();
