@@ -52,4 +52,18 @@ public class ArtistController : ControllerBase
 
         return Ok(artist);
     }
+
+    [HttpPost("addNewArtist")]
+    public ActionResult<ArtistDTO> CreateArtist(AddArtistDTO addArtistDTO)
+    {
+        if (addArtistDTO == null)
+        {
+            return BadRequest("Invalid artist data");
+        }
+
+        var newArtist = artistService.AddArtist(addArtistDTO);
+
+        return CreatedAtAction("GetArtist", new { artistId = newArtist.ArtistId }, newArtist);
+    }
+    
 }

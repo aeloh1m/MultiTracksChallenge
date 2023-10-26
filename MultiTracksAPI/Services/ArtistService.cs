@@ -12,6 +12,7 @@ namespace MultiTracksAPI.Services
 
         public ArtistService(MultiTracksDbContext context)
         {
+            artists = new List<ArtistDTO>();
             _context = context;
         }
 
@@ -62,6 +63,29 @@ namespace MultiTracksAPI.Services
                     // Other properties
                 })
                 .ToList();
+        }
+
+        private List<ArtistDTO> artists;
+        private int nextArtistId = 1;
+        public ArtistDTO AddArtist(AddArtistDTO addArtistDTO)
+        {
+            // Create a new artist from the DTO
+            var newArtist = new ArtistDTO
+            {
+                ArtistId = nextArtistId,
+                Title = addArtistDTO.Title,
+                Biography = addArtistDTO.Biography,
+                ImageUrl = addArtistDTO.ImageUrl,
+                HeroUrl = addArtistDTO.HeroUrl
+            };
+
+            // Add the new artist to the list
+            artists.Add(newArtist);
+
+            // Increment the artist ID for the next artist
+            nextArtistId++;
+
+            return newArtist;
         }
     }
 }
