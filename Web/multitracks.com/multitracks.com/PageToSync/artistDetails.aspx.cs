@@ -1,4 +1,5 @@
 using DataAccess;
+using DocumentFormat.OpenXml.Drawing;
 using System;
 using System.Data;
 using System.Linq;
@@ -18,12 +19,13 @@ public partial class Default : MultitracksPage
 
             if (!string.IsNullOrEmpty(artistID))
             {
-                // Convert artistID to the desired data type (e.g., int)
+                // Catch and convert artistID to int 
                 int targetArtistID;
+
                 if (int.TryParse(artistID, out targetArtistID))
                 {
                     /*
-                     Data gets parsed with the artisID given via URL, example:
+                     Data gets parsed with the artistID given via URL, example:
                     http://localhost:56916/PageToSync/artistDetails.aspx?artistID=107
                      */
                     var data = sql.ExecuteStoredProcedureDT("GetArtistDetails");
@@ -44,7 +46,6 @@ public partial class Default : MultitracksPage
                         artistNameLabel.Text = getArtistDetailsQuery.ArtistName.ToString();
                     }
 
-
                     //========= Artist and Song field  =========//
                     var getArtistAndSongDetailsQuery = from row in data.AsEnumerable()
                                                        where row.Field<int>("artistID") == targetArtistID
@@ -53,9 +54,9 @@ public partial class Default : MultitracksPage
                                                            AlbumIMG = row.Field<string>("albumIMG"),
                                                            SongName = row.Field<string>("songName"),
                                                            AlbumName = row.Field<string>("albumName"),
-                                                           BPM = row.Field<decimal>("bpm").ToString() // Convert to string
+                                                           BPM = row.Field<decimal>("bpm").ToString(),
+                                                           TimeSignature = row.Field<string>("timeSignature") // Include timeSignature
                                                        };
-
 
                     var artistAndSongQueryList = getArtistAndSongDetailsQuery.ToList();
 
@@ -77,9 +78,7 @@ public partial class Default : MultitracksPage
                     getAlbumDetails.DataSource = albumDetailsQueryList;
                     getAlbumDetails.DataBind();
 
-
                     //========= Biography field  =========//
-                    // Retrieve the biography using LINQ
                     var biographyData = data.AsEnumerable()
                         .Where(row => row.Field<int>("artistID") == targetArtistID)
                         .Select(row => new
@@ -94,17 +93,16 @@ public partial class Default : MultitracksPage
                         biographyLabel.Text = biographyData.Biography;
                     }
 
+                    invalidArtist.Visible = false;
+                    displayData.Visible = true;
+
                 }
                 else
                 {
                     // Handle invalid artistID
-                    //invalidArtist.Visible = true;
+                    invalidArtist.Visible = true;
+                    displayData.Visible = false;
                 }
-            }
-            else
-            {
-                // Handle missing artistID
-                // error505.Visible = true;
             }
         }
 
