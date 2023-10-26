@@ -1,0 +1,17 @@
+﻿namespace MultiTracksAPI.Data.DTOs
+{
+    public class ArtistDTO
+    {
+        public int ArtistId { get; set; }
+
+        public DateTime DateCreation { get; set; }
+
+        public string Title { get; set; } = null!;
+
+        public string Biography { get; set; } = null!;
+
+        public string ImageUrl { get; set; } = null!;
+
+        public string HeroUrl { get; set; } = null!;
+    }
+}
