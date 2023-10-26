@@ -18,7 +18,7 @@ namespace MultiTracksAPI.Services
 
         public IEnumerable<ArtistDTO> GetAllArtists()
         {
-            // Use the DbContext to query the database and retrieve artists
+            // Using the DbContext to query the database and retrieve artists
             return _context.Artist
                 .Select(artist => new ArtistDTO
                 {
@@ -33,7 +33,7 @@ namespace MultiTracksAPI.Services
 
         public ArtistDTO GetArtistById(int artistId)
         {
-            // Use the DbContext to query the database and retrieve a specific artist by ID
+            // Using the DbContext to query the database and retrieve a specific artist by ID
             var artist = _context.Artist.FirstOrDefault(a => a.ArtistId == artistId);
 
             if (artist != null)
@@ -55,12 +55,11 @@ namespace MultiTracksAPI.Services
         public IEnumerable<ArtistDTO> SearchArtistsByName(string name)
         {
             return _context.Artist
-                .Where(artist => artist.Title.Contains(name)) // Change this to match your column and search criteria
+                .Where(artist => artist.Title.Contains(name)) // Allows to match the column and search criteria
                 .Select(artist => new ArtistDTO
                 {
                     ArtistId = artist.ArtistId,
                     Title = artist.Title,
-                    // Other properties
                 })
                 .ToList();
         }
@@ -69,7 +68,7 @@ namespace MultiTracksAPI.Services
         private int nextArtistId = 1;
         public ArtistDTO AddArtist(AddArtistDTO addArtistDTO)
         {
-            // Create a new artist from the DTO
+            // Creates a new artist from the DTO
             var newArtist = new ArtistDTO
             {
                 ArtistId = nextArtistId,
@@ -79,10 +78,10 @@ namespace MultiTracksAPI.Services
                 HeroUrl = addArtistDTO.HeroUrl
             };
 
-            // Add the new artist to the list
+            // Adds the new artist to the list
             artists.Add(newArtist);
 
-            // Increment the artist ID for the next artist
+            // Increments the artist ID for the next artist
             nextArtistId++;
 
             return newArtist;

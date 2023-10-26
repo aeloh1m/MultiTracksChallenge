@@ -16,7 +16,7 @@ namespace MultiTracksAPI.Services
 
         public IEnumerable<SongDTO> GetAllSongs()
         {
-            // Use the DbContext to query the database and retrieve artists
+            // Using the DbContext to query the database and retrieve artists
             return _context.Song
                 .Select(song => new SongDTO
                 {
@@ -42,13 +42,13 @@ namespace MultiTracksAPI.Services
 
         public IEnumerable<SongDTO> GetSongsWithPaging(int pageSize, int pageNumber)
         {
-            // Calculate the number of records to skip based on the page number and page size
+            // Calculates the number of records to skip based on the page number and page size
             int recordsToSkip = (pageNumber - 1) * pageSize;
 
-            // Use the DbContext to query the database and retrieve songs with pagination
+            // Useing the DbContext to query the database and retrieve songs with pagination
             return _context.Song
-                .Skip(recordsToSkip)  // Skip the specified number of records
-                .Take(pageSize)       // Take the specified number of records for the page
+                .Skip(recordsToSkip)  // Skips the specified number of records
+                .Take(pageSize)       // Takes the specified number of records for the page
                 .Select(song => new SongDTO
                 {
                     SongId = song.SongId,

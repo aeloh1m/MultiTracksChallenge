@@ -10,9 +10,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Added string connection to database
 builder.Services.AddSqlServer<MultiTracksDbContext>(builder.Configuration.GetConnectionString("Connection"));
 
-
+// Added service scopes. Dependency injection.
 builder.Services.AddScoped<SongService>();
 builder.Services.AddScoped<ArtistService>();
 
