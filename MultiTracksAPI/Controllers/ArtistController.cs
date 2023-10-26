@@ -3,7 +3,7 @@ using MultiTracksAPI.Data.DTOs;
 using MultiTracksAPI.Data.Models;
 using MultiTracksAPI.Services;
 
-[Route("api/artists")]
+[Route("api.multitracks.com/artist")]
 [ApiController]
 public class ArtistController : ControllerBase
 {
@@ -35,7 +35,7 @@ public class ArtistController : ControllerBase
         return Ok(artist);
     }
 
-    [HttpGet("searchByName")]
+    [HttpGet("search")]
     public ActionResult<IEnumerable<ArtistDTO>> SearchArtists([FromQuery] string name)
     {
         if (string.IsNullOrEmpty(name))
@@ -53,7 +53,7 @@ public class ArtistController : ControllerBase
         return Ok(artist);
     }
 
-    [HttpPost("addNewArtist")]
+    [HttpPost("add")] // addNewArtist
     public ActionResult<ArtistDTO> CreateArtist(AddArtistDTO addArtistDTO)
     {
         if (addArtistDTO == null)

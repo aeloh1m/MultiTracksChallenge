@@ -26,11 +26,49 @@ namespace MultiTracksAPI.Services
                     ArtistId = song.ArtistId,
                     Title = song.Title,
                     Bpm = song.Bpm,
-                    TimeSignature = song.TimeSignature
-                  
+                    TimeSignature = song.TimeSignature,
+                    Multitracks = song.Multitracks,
+                    CustomMix = song.CustomMix,
+                    Chart = song.Chart,
+                    RehearsalMix = song.RehearsalMix,
+                    Patches = song.Patches,
+                    SongSpecificPatches = song.SongSpecificPatches,
+                    ProPresenter = song.ProPresenter
+
 
                 })
                 .ToList();
         }
+
+        public IEnumerable<SongDTO> GetSongsWithPaging(int pageSize, int pageNumber)
+        {
+            // Calculate the number of records to skip based on the page number and page size
+            int recordsToSkip = (pageNumber - 1) * pageSize;
+
+            // Use the DbContext to query the database and retrieve songs with pagination
+            return _context.Song
+                .Skip(recordsToSkip)  // Skip the specified number of records
+                .Take(pageSize)       // Take the specified number of records for the page
+                .Select(song => new SongDTO
+                {
+                    SongId = song.SongId,
+                    DateCreation = song.DateCreation,
+                    AlbumId = song.AlbumId,
+                    ArtistId = song.ArtistId,
+                    Title = song.Title,
+                    Bpm = song.Bpm,
+                    TimeSignature = song.TimeSignature,
+                    Multitracks = song.Multitracks,
+                    CustomMix = song.CustomMix,
+                    Chart = song.Chart,
+                    RehearsalMix = song.RehearsalMix,
+                    Patches = song.Patches,
+                    SongSpecificPatches = song.SongSpecificPatches,
+                    ProPresenter = song.ProPresenter
+                })
+                .ToList();
+        }
+
+
     }
 }

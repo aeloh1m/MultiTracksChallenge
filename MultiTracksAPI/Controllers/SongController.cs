@@ -4,7 +4,7 @@ using MultiTracksAPI.Services;
 
 namespace MultiTracksAPI.Controllers
 {
-    [Route("api/songs")]
+    [Route("api.multitracks.com/song")]
     [ApiController]
     public class SongController : ControllerBase
     {
@@ -20,6 +20,26 @@ namespace MultiTracksAPI.Controllers
         {
             var songs = songService.GetAllSongs();
             return Ok(songs);
+        }
+
+        [HttpGet("list")] //getSongsByPageSizeAndNumber
+        public ActionResult<IEnumerable<SongDTO>> GetSongsWithPaging(int pageSize = 10, int pageNumber = 1)
+        {
+            if (pageSize <= 0 || pageNumber <= 0)
+            {
+                return BadRequest("Page size and page number must be positive values.");
+            }
+
+            var songs = songService.GetSongsWithPaging(pageSize, pageNumber);
+
+            if (songs.Any())
+            {
+                return Ok(songs);
+            }
+            else
+            {
+                return NotFound("No songs found on this page.");
+            }
         }
     }
 }
